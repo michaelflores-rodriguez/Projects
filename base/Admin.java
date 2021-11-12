@@ -3,54 +3,85 @@
 import java.util.*;
 import java.io.*;
 import java.util.Scanner;
-public class Admin implements Serializable
+public class Admin extends Login implements Serializable
 {
-  protected String UserName;
-  protected String PinNum;
-  protected Vector<User> UserList;  
-  //protected ArrayList<User> CustomerList;
+  protected ArrayList<User> UserList;  
+  protected List<List> SpotList;
 
   //default constructor
   public Admin()
   {
-    this.UserName = "";
-    this.PinNum = "";
-    this.UserList = new Vector<User>();
-    //this.CustomerList = new ArrayList<User>();
+    super();
+    this.UserList = new ArrayList<User>();
+    this.SpotList = new ArrayList<List>();
+    CreateParkingSpot();
   }//end constructor
   
   //constructor with strings passed
   public Admin(String UserName, String PinNum)
   {
-    this.UserName = UserName;
-    this.PinNum = PinNum;
-    this.UserList = new Vector<User>();
-    //this.CustomerList = new ArrayList<User>();
-  }//end constructor
+    super(UserName,PinNum);
+    this.UserList = new ArrayList<User>();
+    this.SpotList = new ArrayList<List>();
+  }//end paramiter constructor
 
-  //set Account number, pass a string into the method 
-  public void setUserName(String UserName)
+  //create how many spots
+  public void CreateParkingSpot()
   {
-    this.UserName = UserName;
-  }//end void 
+    ///--------------- I have to fins a way to add a Floor and add a Parking Spot by using a 2d arrayList------   
+    // SpotList.add(new Spot(Row, Column);
 
-  ////set pin number, pass a string into the method 
-  public void setPinNum(String PinNum)
-  {
-    this.PinNum = PinNum;
-  }//end method
+    //This is floor 1
+    List Floor1 = new ArrayList();
+    //Thiese are the parking spots for floor 1
+    Floor1.add(0,0);
+    Floor1.add(1,0);
+    Floor1.add(2,0);
+    Floor1.add(3,0);
+    Floor1.add(4,0);
 
-  //set account number
-  public String getUserName()
+    //This is floor 2 
+    List Floor2 = new ArrayList();
+    //These are the parking spots for floor 2
+    Floor2.add(0,0);
+    Floor2.add(1,0);
+    Floor2.add(2,0);
+    Floor2.add(3,0);
+    Floor2.add(4,0);
+
+    //This is floor 3
+    List Floor3 = new ArrayList();
+    //These are the parking spots for floor 3
+    Floor3.add(0,0);
+    Floor3.add(1,0);
+    Floor3.add(2,0);
+    Floor3.add(3,0);
+    Floor3.add(4,0);
+
+    SpotList.add(Floor1);
+    SpotList.add(Floor2);
+    SpotList.add(Floor3);
+  }//end CreateParkingSpot
+
+  //Now that I have the map displayed I can proceed to checking the status of the parking spot
+  public void ParkingStatus()
   {
-    return this.UserName;
-  }//end method
- 
-  //set pin number
-  public String getPinNum()
-  {
-    return this.PinNum;
-  }//end method
+    //This will give me thestatus of the parking spot
+    //If the status is 0 then the parking spot is open
+    //If the status is 1  then the parking spot taken
+    int  status = SpotList.get(i).get(j);
+    if (status.equals(0))
+    {
+      for(int i = 0; i<3; i++)
+      {
+        System.out.print("In floor "+i+", the  following parking spots are available: ");
+        for(int j = 0; j<4; j++)
+        {
+          System.out.print(j+ "| ");
+        }//end spot display
+      }//end floor 
+    }//end if
+  }//end Parking Status
 
   //create user method, passes accoount and pin from ATM class
   public void CreateUser(String UserName,String Pin)
@@ -115,10 +146,15 @@ public class Admin implements Serializable
     }
      return -1;
   }
-
+ 
   //get  the users
-  public Vector<User> getUserList()
+  public ArrayList<User> getUserList()
   {
     return this.UserList;
   }//end get
+
+  public List<List> getSpotList()
+  {
+    return this.SpotList;
+  }
 }//end Admin Class

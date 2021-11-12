@@ -28,7 +28,7 @@ public class Money implements Serializable
 
   public double getBalance_AfterFee(int months)
   {
-    this.balance = balance - 15 * (months);
+    this.balance = balance - (15 * (months));
     this.balance = Math.round(this.balance * 100.0)/100.0; 
     return this.balance;
   }
