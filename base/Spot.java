@@ -22,17 +22,36 @@ public class Spot implements Serializable
     this.Status = 0;
   }//end constructor
 
-
-  public void CreateSpot()
+  //Most likely the admin will have this option to create the parking spot
+  public void CreateSpot(int Floor, int Parking)
   {
-    for(int i = 1; i < 4; i++)
+    int[][] ParkingSpot = new int[Floor][Parking];
+
+    for(int i = 1; i < Floor; i++)
     {
-      for(int j = 1; j < 6; i++)
+      for(int j = 1; j < Parking; i++)
       {
-        
+        ParkingSpot[i][j] = 0;    
       }
     }
-  }
+  }//end CreateSpot
+
+  //this method will reserve the spot and change the status of the...
+  //spot to one.
+  public void ReserveSpot(int Floor, int Parking)
+  {
+    if(ParkingSpot[Floor][Parking].equals(0))
+    {
+      //changes the parking from opened to closed
+      ParkingSpot[Floor][Parking] = 1;
+      
+
+      System.out.println("Your spot have been reserved!");
+      System.out.println("");
+    }//this will only execute if the parking spot is opened
+  }//end ReserveSpot
+
+
   //sets the Floors
   public void setFloor(int Floor)
   {
@@ -40,11 +59,15 @@ public class Spot implements Serializable
   }//end set floor
 
   //sets the parking spots
-  public void setParking()
+  public void setParking(int Parking)
   {
     this.Parking = Parking;
   }//end set spots
 
+  public void setStatus();
+  {
+    this.Status = Status;
+  }
   //get the floor
   public int getFloor()
   {
@@ -56,5 +79,8 @@ public class Spot implements Serializable
     return Parking;
   }//end get parking
 
-  
+  public int getStatus();
+  {
+    return Status;
+  }//end get Status 
 }//end of class

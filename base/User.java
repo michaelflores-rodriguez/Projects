@@ -5,12 +5,13 @@ public class User extends Login implements Serializable
   protected double Withdraw;
   protected double Deposit;
   protected Money MoneyAcc; 
- 
+  protected Spot spot;
    //Constructor default
    public User()
    {
      super();
-     this.MoneyAcc = new Money(); 
+     this.MoneyAcc = new Money();
+     this.Reservation = new Reservation(); 
    }//end default constructor
    
    //Constructor with values passed

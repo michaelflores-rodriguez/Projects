@@ -90,7 +90,7 @@ public class Menu implements Serializable
     //Writes the file
     try
     {
-      FileOutputStream fo = new FileOutputStream("SerialUsers.dat");
+      FileOutputStream fo = new FileOutputStream("Users.dat");
       ObjectOutputStream objOut = new ObjectOutputStream(fo);
       objOut.writeObject(admin);
     }
@@ -116,9 +116,8 @@ public class Menu implements Serializable
         System.out.println("2) Delete User");
         System.out.println("3) Apply Monthly Fee");
         System.out.println("4) List of users");
-        System.out.println("5) Create / Edit Map");
-        System.out.println("6) Display Map");
-        System.out.println("7) Exit to loggin");
+        System.out.println("5) Display Map");
+        System.out.println("6) Exit to loggin");
         String UserInput = input.nextLine();
         
         //Add user
@@ -162,16 +161,11 @@ public class Menu implements Serializable
 
         else if (UserInput.equals("5"))
         { 
-          admin.setMap();
-        }
-
-        else if (UserInput.equals("6"))
-        { 
           admin.getMap();
         }
 
         //go back to choosing  if admin or user
-        else if (UserInput.equals("7"))
+        else if (UserInput.equals("6"))
         {
           go = false;
         }
@@ -259,7 +253,7 @@ public class Menu implements Serializable
           {
             start = false; 
           }//end option 5
-        }//end while
+        }//end while start
       }//end if checkings account
      
       //Savings account
@@ -269,28 +263,68 @@ public class Menu implements Serializable
         while (end)
         {
           System.out.println("Reserve/Edit Menu");
-          System.out.println("1) Create Parking Reservation");
-          System.out.println("2) Edit Parking Reservation");
-          System.out.println("3) Delete Parking Reservation");
+          System.out.println("1) Reserve Parking Spot");
+          System.out.println("2) Check Parking Reservation");
+          System.out.println("3) Cancel Parking Spot  Reservation");
           System.out.println("4) Previous menu");
           UserInput = scanner.nextLine();
 
-          //Create Parking Reservation
+          //Reserve Parking Spot
           if ( UserInput.equals("1"))
           {
-            System.out.println("");
-          }//ends if balance
+            System.out.println("Choose one of the following by entering their corresponding number.");
+            System.out.println("1) Display All parking Spots Available");
+            System.out.println("2) Display Specific floor Parking spot Available");
+            System.out.println("3) Previous Menu");
+            String UserInput = input.nextLine();
+	    boolean a = true;
+            while(a)
+ 	    {
+              if ( UserInput.equals("1"))
+              {
+  	        //this will display all parking spot available
+                admin.getMap 
+                System.out.print("Enter the floor you will like to reserve your parking spot: ");
+                int Floor = input.nextInt();
+                input.nextLine();
+                System.out.print("Enter the Spot you will like to reserve your parking spot: ");
+                int ParkingSpot = input.nextInt();
+                input.nextLine();
+                admin.ReserveSpot(Floor, ParkingSpot);
+              }//end display All parking Spot Plus Reservation
 
-          //Edit Reservation
-          if ( UserInput.equals("2"))
+              else if ( UserInput.equals("2"))
+              {
+                System.out.print("Enter the floor you will like to check: ");
+                int Floor = input.nextInt();
+                input.nextLine();
+                //this method will display the specific floor with the parking spots available
+                //if there are not any, the program should ask the user to pick another floor
+                admin.SpecificFloor(Floor);
+                System.out.print("Enter the Spot you will like to reserve your parking spot: ");
+                int ParkingSpot = input.nextInt();
+       	        input.nextLine();
+	        admin.ReserveSpot(Floor, ParkingSpot); 
+              }//end display specific floor Plus reservation
+	     
+              else if(UserInput.equals("3"))
+ 	      {
+  	        a = false;
+              }//end exit menu
+            }//ends while a
+          }//end if Reserve Parking Spot
+
+          //Check Reservation
+          else if ( UserInput.equals("2"))
           {
-              System.out.println("");
-
+            admin.CheckReservation(); 
+            System.out.println("");
           }//end if
 
           //Delete Parking Reservation
           if ( UserInput.equals("3"))
           {
+            admin.deleteParking();
             System.out.println("");
           }//end if deposit money
 
@@ -300,15 +334,14 @@ public class Menu implements Serializable
             end = false;
           }//end if
         }//end while
-      }//Savings menu ends
+      }//menu ends
 
-    if(UserInput.equals("3"))
+    else if(UserInput.equals("3"))
     {
-    System.out.println("Going back to main menu");
-    currentUser = null;
-    }//ends exit menu
-        
-  }//end Picking account menu
+      System.out.println("Going back to main menu");
+      currentUser = null;
+    }//ends exit menu        
+   }//end Picking account menu
  }//end user menu
 
 }//end Menu class

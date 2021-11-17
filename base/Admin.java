@@ -16,7 +16,7 @@ public class Admin extends Login implements Serializable
     this.SpotList = new ArrayList<List>();
     CreateParkingSpot();
   }//end constructor
-  
+ 
   //constructor with strings passed
   public Admin(String UserName, String PinNum)
   {
@@ -40,6 +40,8 @@ public class Admin extends Login implements Serializable
     Floor1.add(3,0);
     Floor1.add(4,0);
 
+    get(i).get(0)
+    
     //This is floor 2 
     List Floor2 = new ArrayList();
     //These are the parking spots for floor 2
