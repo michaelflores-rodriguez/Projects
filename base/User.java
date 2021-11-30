@@ -2,8 +2,6 @@ import java.util.*;
 import java.io.*;
 public class User extends Login implements Serializable
 {
-  protected double Withdraw;
-  protected double Deposit;
   protected Money MoneyAcc; 
   protected Spot spot;
    //Constructor default
@@ -11,7 +9,7 @@ public class User extends Login implements Serializable
    {
      super();
      this.MoneyAcc = new Money();
-     this.Reservation = new Reservation(); 
+     this.spot = new Spot();
    }//end default constructor
    
    //Constructor with values passed
@@ -19,8 +17,9 @@ public class User extends Login implements Serializable
    {
      super(UserName,PinNum);
      this.MoneyAcc = new Money();
-   }//end constructor 
-
+     this.spot = new Spot(); 
+   }//end constructor
+ 
    //get deposti method for money account 
    public double getDeposit_Balance(double dinero)
    {
@@ -44,5 +43,9 @@ public class User extends Login implements Serializable
    {
      return this.MoneyAcc;
    }
-  
+
+   public Spot getSpot()
+   {
+     return this.spot;
+   }//this will make the user class recognize the methods in the spot class  
 }//end user class

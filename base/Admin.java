@@ -6,15 +6,16 @@ import java.util.Scanner;
 public class Admin extends Login implements Serializable
 {
   protected ArrayList<User> UserList;  
-  protected List<List> SpotList;
+  protected int[][] ParkingSpot;
+ // protected List<List> SpotList;
 
   //default constructor
   public Admin()
   {
     super();
     this.UserList = new ArrayList<User>();
-    this.SpotList = new ArrayList<List>();
-    CreateParkingSpot();
+    
+    //this.SpotList = new ArrayList<List>();
   }//end constructor
  
   //constructor with strings passed
@@ -22,85 +23,156 @@ public class Admin extends Login implements Serializable
   {
     super(UserName,PinNum);
     this.UserList = new ArrayList<User>();
-    this.SpotList = new ArrayList<List>();
+    this.ParkingSpot = new int[][]{{0},{0}};
+  //this.SpotList = new ArrayList<List>();
   }//end paramiter constructor
 
-  //create how many spots
-  public void CreateParkingSpot()
+  public void CreateSpot(int Floor, int Parking)
   {
-    ///--------------- I have to fins a way to add a Floor and add a Parking Spot by using a 2d arrayList------   
-    // SpotList.add(new Spot(Row, Column);
-
-    //This is floor 1
-    List Floor1 = new ArrayList();
-    //Thiese are the parking spots for floor 1
-    Floor1.add(0,0);
-    Floor1.add(1,0);
-    Floor1.add(2,0);
-    Floor1.add(3,0);
-    Floor1.add(4,0);
-
-    get(i).get(0)
-    
-    //This is floor 2 
-    List Floor2 = new ArrayList();
-    //These are the parking spots for floor 2
-    Floor2.add(0,0);
-    Floor2.add(1,0);
-    Floor2.add(2,0);
-    Floor2.add(3,0);
-    Floor2.add(4,0);
-
-    //This is floor 3
-    List Floor3 = new ArrayList();
-    //These are the parking spots for floor 3
-    Floor3.add(0,0);
-    Floor3.add(1,0);
-    Floor3.add(2,0);
-    Floor3.add(3,0);
-    Floor3.add(4,0);
-
-    SpotList.add(Floor1);
-    SpotList.add(Floor2);
-    SpotList.add(Floor3);
-  }//end CreateParkingSpot
-
-  //Now that I have the map displayed I can proceed to checking the status of the parking spot
-  public void ParkingStatus()
-  {
-    //This will give me thestatus of the parking spot
-    //If the status is 0 then the parking spot is open
-    //If the status is 1  then the parking spot taken
-    int  status = SpotList.get(i).get(j);
-    if (status.equals(0))
+    this.ParkingSpot = new int[Floor][Parking];
+    System.out.println("Floor size: "+ParkingSpot.length);
+    System.out.println("Parking size: "+ParkingSpot[0].length);
+    for(int i = 0; i < Floor; i++)
     {
-      for(int i = 0; i<3; i++)
+      for(int j = 0; j < Parking; j++)
       {
-        System.out.print("In floor "+i+", the  following parking spots are available: ");
-        for(int j = 0; j<4; j++)
-        {
-          System.out.print(j+ "| ");
-        }//end spot display
-      }//end floor 
+        this.ParkingSpot[i][j] = 0;    
+      }
+    }
+  }//end CreateSpot
+
+  //this will reserve the spot for the admin 
+  public void ReserveSpot(int Floor, int Parking, int i)
+  {
+    System.out.println("User: "+i);
+    System.out.println("getUserList().get(i).getSpot()"+getUserList().get(i));
+
+    //This line makes the program check if the user already
+    //have a parking spot reserved. Users cannot have more than 1 spot reserved.
+    if(getUserList().get(i).getSpot().getAmountSpotReserved() == 0) 
+    {
+      if(ParkingSpot[Floor][Parking] == 0)
+      {
+        //changes the parking from opened to closed
+        ParkingSpot[Floor][Parking] = 1;
+        getUserList().get(i).getSpot().setFloor(Floor);
+        getUserList().get(i).getSpot().setParking(Parking);
+        int AmountSpotReserved = 1; 
+        getUserList().get(i).getSpot().setAmountSpotReserved(AmountSpotReserved);
+
+        System.out.println("Parking Reservation has been made!");
+        System.out.println("");
+      }//this will only execute if the parking spot is opened
+
+      else if(ParkingSpot[Floor][Parking] == 1)
+      {
+        System.out.println("This parking spot is not available");
+      }//end else if
+    }//end if, this if makes sure the user does not already have a spot reserved 
+    
+    else if(getUserList().get(i).getSpot().getAmountSpotReserved() == 1)
+    {
+      System.out.println("Cannot reserve more than 1 parking Spot at a time!");
+      System.out.println("");
+    }
+  }//end ReserveSpot 
+  //in this method the user will be able to notify the system that they have left.
+  //This will cause the system to open the spot that was reserved by the user
+  public void FreeSpot(int i)
+  {
+     if(ParkingSpot[getUserList().get(i).getSpot().getFloor()][getUserList().get(i).getSpot().getParking()] == 1)
+     {
+       ParkingSpot[getUserList().get(i).getSpot().getFloor()][getUserList().get(i).getSpot().getParking()] = 0;
+       getUserList().get(i).getSpot().setFloor(-1);
+       getUserList().get(i).getSpot().setParking(-1);
+       int AmountSpotReserved = 0;
+       getUserList().get(i).getSpot().setAmountSpotReserved(AmountSpotReserved);
+       System.out.println("Now you are able to reserve another Parking Spot!");
+       System.out.println("");    
+     }//end if
+
+     else if(ParkingSpot[getUserList().get(i).getSpot().getFloor()][getUserList().get(i).getSpot().getParking()] == 0)
+     {
+       System.out.println("You do not have a spot to delete!");
+     }//end else if
+  }//end free spot
+
+  //this method will allow the user to check the reservation they have made
+  public void CheckReservation(int i)
+  {
+    //checks if the user already have a spot reserved
+    if(getUserList().get(i).getSpot().getAmountSpotReserved() == 1)
+    {
+      System.out.println("You have a reserved spot in Floor: "+getUserList().get(i).getSpot().getFloor()+ " ParkingSpot: "+getUserList().get(i).getSpot().getParking());
     }//end if
-  }//end Parking Status
+  
+    else
+    {
+      System.out.println("You do not have any spot reservation!\n");
+    }
+  }
+  public void DisplayMap()
+  {
+    int Floor = ParkingSpot.length;
+    int Parking = ParkingSpot[1].length;
+    System.out.println("");
+    System.out.println("");
+    System.out.print("Spots:   ");
+    for (int nums = 0; nums < Parking; nums++) 
+    {
+      System.out.print(nums);
+    }
+    System.out.println("");
+    System.out.print("         ");
+
+    for (int nums = 0; nums < Parking; nums++)
+    {
+      System.out.print("_");
+    }
+    System.out.println("");
+
+    for(int i = 0; i < Floor; i++)
+    {
+      System.out.print("Floor: "+i+"|");
+      for(int j = 0; j < Parking; j++)
+      {
+        System.out.print(ParkingSpot[i][j]);   
+      }
+      System.out.println("");
+    }
+    System.out.println("");
+    System.out.println(""); 
+  }
 
   //create user method, passes accoount and pin from ATM class
   public void CreateUser(String UserName,String Pin)
   {
-    int i = 0;
-    //creates a new user
-    if (UserName.equals(getUserList().get(i).getUserName()))
+    boolean Duplicate = false;
+    for (int i = 0; i < UserList.size(); i++)
     {
-      System.out.println("This username already exist");
-    }
-   
+      //this will find a user with the same username if it already exist
+      if (getUserList().get(i).getUserName().equals(UserName))
+      {
+        Duplicate = true;
+      }//end if
+    }//end for
+ 
+    //if the user name already exist it wont create the new user
+    if(Duplicate == true)
+    {
+      System.out.println("Cannot create because this username already exists");
+      System.out.println("");
+    }//end if
+
+    //if no user name exist with this username then it will create the new user
     else
     {
+      //creates a new user
       UserList.add(new User(UserName, Pin));
       System.out.println("You have created a new user!");
       System.out.println("");
-    }  
+    }//end else
+      
   }//end method
   
   //delete user  method
@@ -137,7 +209,7 @@ public class Admin extends Login implements Serializable
   
   //Select user
   //this method will select a user from the user vector
-  public int SelectUser(String AccountNum, String PinNum)
+  public int SelectUser(String UserName, String PinNum)
   {
     for (int i = 0; i < UserList.size(); i++)
     { 
@@ -155,8 +227,11 @@ public class Admin extends Login implements Serializable
     return this.UserList;
   }//end get
 
+  //public int[][] get
+/* this was to create a 2d arraylist but i found a diffrent way to do it
   public List<List> getSpotList()
   {
     return this.SpotList;
   }
+*/
 }//end Admin Class
