@@ -45,6 +45,7 @@ public class Spot implements Serializable
     return Floor;
   }//get the Floor
 
+  //get the parking spot 
   public int getParking()
   {
     return Parking;

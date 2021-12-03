@@ -8,7 +8,7 @@ public class Menu implements Serializable
 {
    protected String UserName;
    protected String PinNum;
-   protected static Admin admin = new Admin("00000", "12345");
+   protected static Admin admin = new Admin("Mbulls", "123");
 
   public static void main(String[] args)
   {
@@ -40,12 +40,12 @@ public class Menu implements Serializable
       //Determinating if is Admin or User loggin
       if (UserInput.equals("1"))
       {
-        System.out.print("Enter Account number: ");
+        System.out.print("Enter Username: ");
         String UserName = scanner.nextLine();
-        System.out.print("Enter Pin number: ");
+        System.out.print("Enter password: ");
         String PinNum = scanner.nextLine();
         System.out.println("");
-        if (UserName.equals("00000") && PinNum.equals("12345"))
+        if (UserName.equals("Mbulls") && PinNum.equals("123"))
         {
           adminMenu(admin,UserName, PinNum);
         }//end if
@@ -59,16 +59,13 @@ public class Menu implements Serializable
       //*************************************************************************User Menu********************************************************
       else if(UserInput.equals("2") )
       {
-        System.out.print("Enter Account number: ");
+        System.out.print("Enter Username: ");
         String UserName = scanner.nextLine();
-        System.out.print("Enter Pin number: ");
+        System.out.print("Enter password: ");
         String Pin = scanner.nextLine();
         int userIndex = admin.SelectUser(UserName,Pin);
-        System.out.println(admin.getUserList().get(i).getUserName());
-	System.out.println(admin.getUserList().get(i).getPinNum());
         System.out.println("");
         
-        System.out.println(userIndex);
 	if(userIndex == -1)
         {
 	  System.out.println("User not found, try again");
@@ -129,14 +126,14 @@ public class Menu implements Serializable
         { 
           //Ask admin to enter the account num and pin num for the new user
           
-          System.out.print("Enter User Account Number: ");
+          System.out.print("Enter Username: ");
           UserName = input.nextLine();
-          System.out.print("Enter User Pin Number: ");
+          System.out.print("Enter password: ");
           Pin = input.nextLine();
           System.out.println("");
 
           admin.CreateUser(UserName, Pin);
-        }
+        }//end option 1
         
         //delete user
         else if (UserInput.equals("2"))
@@ -146,7 +143,7 @@ public class Menu implements Serializable
           input.nextLine();
           admin.DeleteUser(i);
           System.out.println("");
-        }
+        }//end option 2
 
         //apply interest to all the users savings account
         else if (UserInput.equals("3"))
@@ -157,15 +154,16 @@ public class Menu implements Serializable
           input.nextLine();
           System.out.println("The interest has been applied");
           System.out.println("");
-        }
+        }//end option 3
 
         //list all the users
         else if (UserInput.equals("4"))
         {
           admin.ListUser();
           System.out.println("");
-        }
+        }//end option 4
 
+        //Option 5 will let you create Parking spots
         else if (UserInput.equals("5"))
         {
           System.out.print("Enter how many floor the parking will have:  ");
@@ -176,17 +174,20 @@ public class Menu implements Serializable
           input.nextLine();
           admin.CreateSpot(Floor,Parking);
           System.out.println("");
-        }
+        }//end option 5
+
+        //This option will display the map
         else if (UserInput.equals("6"))
         { 
           admin.DisplayMap();
-        }
+        }//end option6
 
         //go back to choosing  if admin or user
         else if (UserInput.equals("7"))
         {
           go = false;
-        }
+          System.out.println("");
+        }//end option 7
        
     }//end while
   }//end admin menu method
@@ -206,7 +207,6 @@ public class Menu implements Serializable
     //while user has not log out
     while(currentUser != null)
     {
-
       System.out.println("Choose one of the following");
       System.out.println("1) Account Information");
       System.out.println("2) Reserve/Edit Parking Spot Reservation");
@@ -300,7 +300,7 @@ public class Menu implements Serializable
                   else
                   {
                   //creates a new user
-                  admin.getUserList().get(userIndex).setPinNum(PinNum);
+                  admin.getUserList().get(userIndex).setUserName(UserName);
                   System.out.print("Your new username is: " + admin.getUserList().get(userIndex).getUserName());
                   System.out.println("");
                 }//end else
@@ -309,16 +309,17 @@ public class Menu implements Serializable
 
               else if(UserInput.equals("2"))
               {
-                System.out.print("Enter your new Pin number: ");
+                System.out.print("Enter your new password: ");
                 PinNum = scanner.nextLine();
                 admin.getUserList().get(userIndex).setPinNum(PinNum);
-                System.out.print("Your new Pin number is: " + admin.getUserList().get(userIndex).getPinNum());
+                System.out.print("Your new password is: " + admin.getUserList().get(userIndex).getPinNum());
                 System.out.println("");
               }//end option 2
   
               else if(UserInput.equals("3")) 
               {
                 b = false;
+                System.out.println("");
               }//end option 3
             }//end while b     
           }//end option 4
@@ -355,6 +356,7 @@ public class Menu implements Serializable
 	    boolean a = true;
             while(a)
  	    {
+              // Option one is for the user reserving a spot
               if ( UserInput.equals("1"))
               {
   	        //this will display all parking spot available
@@ -399,12 +401,12 @@ public class Menu implements Serializable
             System.out.println("");
           }//end if
 
-          //Delete Parking Reservation
+          //Free Parking Reservation
           if ( UserInput.equals("3"))
           {
             admin.FreeSpot(userIndex);
             System.out.println("");
-          }//end if deposit money
+          }//end if Free parking Reservation
 
           //Back to previous menu
           if(UserInput.equals("4"))
@@ -417,7 +419,7 @@ public class Menu implements Serializable
 
     else if(UserInput.equals("3"))
     {
-      System.out.println("Going back to main menu");
+      System.out.println("\n Going back to main menu");
       currentUser = null;
     }//ends exit menu        
    }//end Picking account menu

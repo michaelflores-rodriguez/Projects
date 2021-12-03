@@ -34,16 +34,15 @@ public class User extends Login implements Serializable
      double newBalance = (this.MoneyAcc.getBalance() - dinero);
      MoneyAcc.setBalance(newBalance);
      return newBalance;
-
-   }//end method
-  
+   }//end method 
 
    //this gives the user class access to the money class for the admin class to refer to it
    public Money getMoney()
    {
      return this.MoneyAcc;
-   }
+   }//end
 
+   //this gives the user class access to the spot class for the admin class to refer to it
    public Spot getSpot()
    {
      return this.spot;
